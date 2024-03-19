@@ -1,0 +1,126 @@
+;; set C-z as undo instead of suspend
+(global-unset-key (kbd "C-z"))
+(global-set-key (kbd "C-z") 'undo)
+
+
+;; set C-o as switch window
+(global-unset-key (kbd "C-o"))
+(global-set-key (kbd "C-o") 'other-window)
+
+
+;; set C-p as switch window reverse
+(global-unset-key (kbd "C-p"))
+(fset 'prev-window
+      (kbd "C-- C-o"))
+(global-set-key (kbd "C-p") 'prev-window)
+
+
+;; set C-x (C-q) C-a as mark all
+(global-set-key (kbd "C-x C-a") 'mark-whole-buffer)
+;; set C-v as yank
+(global-unset-key (kbd "C-v"))
+(global-set-key (kbd "C-v") 'yank)
+
+
+;; set C-x and C-c as wipe and copy 
+(global-unset-key (kbd "C-q"))
+(keyboard-translate ?\C-c ?\M-w)
+(keyboard-translate ?\C-x ?\C-w)
+
+
+;; set C-w and C-q as C-x and C-c
+(keyboard-translate ?\C-w ?\C-c)
+(keyboard-translate ?\C-q ?\C-x)
+
+
+;; set C-0, C-2, C-3 as C-x-i
+(global-set-key (kbd "C-0") 'delete-window) 
+(global-set-key (kbd "C-1") 'delete-other-windows)
+(global-set-key (kbd "C-2") 'split-window-below)
+(global-set-key (kbd "C-3") 'split-window-right) 
+(global-set-key (kbd "C-4") 'delete-window)
+
+
+;; set C-b to scroll up
+(global-unset-key (kbd "C-b"))
+(global-set-key (kbd "C-b") 'scroll-up-command)
+
+
+;; set C-n as scroll down
+(global-unset-key (kbd "C-n"))
+(global-set-key (kbd "C-n") 'scroll-down-command)
+
+
+;; set C-~ as reload file
+(fset 'load-current-file
+      (kbd "M-x load-file <RET>"))
+(global-set-key (kbd "C-`") 'load-current-file)
+
+
+;; set C-d as open directory instead of delete char
+(global-unset-key (kbd "C-d"))
+(global-set-key (kbd "C-d") 'dired)
+
+
+;; set C-S-z as redo not working for now
+;;(fset 'redo
+;;      (kbd "C-- C-z"))
+ ;;(global-set-key (kbd "C-S-z") 'redo)
+
+;; set console.log shortcut to C-tab
+(fset 'consolelog
+      (kbd "c o n s o l e . l o g ( ) ; <left><left>"))
+(global-set-key (kbd "<C-tab>") 'consolelog)
+
+
+;; change search to C-f and reverse search to C-Shift-f
+(global-unset-key (kbd "C-s"))
+(global-unset-key (kbd "C-f"))
+(global-set-key (kbd "C-f") 'isearch-forward)
+(global-set-key (kbd "C-S-F") 'isearch-backward)
+(define-key isearch-mode-map "\C-f" 'isearch-repeat-forward)
+
+
+;; set C-s to save file
+(global-set-key (kbd "C-s") 'save-buffer)
+
+
+;; delete marked text
+(delete-selection-mode 1)
+
+
+;; start emacs at fullscreen
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+
+;; indent options
+(setq-default indent-tabs-mode nil)
+(setq js-indent-level 2)
+(setq css-indent-offset 2)
+(global-unset-key (kbd "<RET>"))
+(global-set-key (kbd "<RET>") 'newline)
+
+
+;; change tab to a couple of spaces
+;;(global-unset-key (kbd "<tab>"))
+(fset 'tab-spaces
+      (kbd "<space><space>"))
+;;(global-set-key (kbd "<tab>") 'tab-to-tab-stop)
+;;(setq-default tab-width 2)
+
+
+;; change cursor to bar
+(setq-default cursor-type 'bar)
+
+
+;; emacs options - not to touch:
+(custom-set-variables
+ '(inhibit-startup-screen t))
+
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

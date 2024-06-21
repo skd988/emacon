@@ -1,3 +1,7 @@
+;; load-path lisp
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+
 ;; set C-z as undo instead of suspend
 (global-unset-key (kbd "C-z"))
 (global-set-key (kbd "C-z") 'undo)
@@ -17,9 +21,20 @@
 
 ;; set C-x (C-q) C-a as mark all
 (global-set-key (kbd "C-x C-a") 'mark-whole-buffer)
+
+
 ;; set C-v as yank
 (global-unset-key (kbd "C-v"))
 (global-set-key (kbd "C-v") 'yank)
+
+
+;; set isotab as tab
+(fset 'insert-tab
+      (kbd "C-; <tab>"))
+(global-set-key (kbd "<backtab>") 'insert-tab)
+
+;; set C-; as quoted-insert
+(global-set-key (kbd "C-;") 'quoted-insert)
 
 
 ;; set C-x and C-c as wipe and copy 
@@ -51,6 +66,7 @@
 (global-set-key (kbd "C-n") 'scroll-down-command)
 
 
+
 ;; set C-~ as reload file
 (fset 'load-current-file
       (kbd "M-x load-file <RET>"))
@@ -73,6 +89,41 @@
 (global-set-key (kbd "<C-tab>") 'consolelog)
 
 
+;; set C-backtab (C-S-tab) console.log ||
+(fset 'consolelogor
+      (kbd "c o n s o l e . l o g ( ) | | <left><left><left>"))
+(global-set-key (kbd "<C-iso-lefttab>") 'consolelogor)
+
+
+;; set C-<, C-!, C-~ as html comments
+(fset 'htmlcomment
+      (kbd "< ! - - - - > <left> <left> <left>"))
+(fset 'htmlcommenton
+      (kbd "<home> <tab> <right> ! - - <end> <left> - -"))
+(fset 'htmlcommentoff
+      (kbd "<home> <tab> <right> <deletechar> <deletechar> <deletechar> <end> <left> <backspace> <backspace>"))
+(global-set-key (kbd "C-<") 'htmlcomment)
+(global-set-key (kbd "C-!") 'htmlcommenton)
+(global-set-key (kbd "C-~") 'htmlcommentoff)
+
+
+;; set M-` as reload file updated
+(defun revert-buffer-no-confirm ()
+    "Revert buffer without confirmation."
+    (interactive)
+    (revert-buffer :ignore-auto :noconfirm))
+
+(global-unset-key (kbd "M-`"))
+(global-set-key (kbd "M-`") 'revert-buffer-no-confirm)
+
+
+;;set M-e as element
+(fset 'htmlelement
+      (kbd "<home> <tab> C-k <tab> < C-y > RET RET < / C-y > <tab> <up> <tab> <up> <end> <left>"))
+(global-unset-key (kbd "M-e"))
+(global-set-key (kbd "M-e") 'htmlelement)
+
+
 ;; change search to C-f and reverse search to C-Shift-f
 (global-unset-key (kbd "C-s"))
 (global-unset-key (kbd "C-f"))
@@ -85,6 +136,11 @@
 (global-set-key (kbd "C-s") 'save-buffer)
 
 
+;; set insert as new window
+(global-unset-key (kbd "<insert>"))
+(global-set-key (kbd "<insert>") 'make-frame-command)
+
+
 ;; delete marked text
 (delete-selection-mode 1)
 
@@ -93,29 +149,39 @@
 (add-to-list 'default-frame-alist '(fullscreen . maximized))
 
 
+;; force ";" to be ";" in asm
+(defun my-hook ()
+  (local-set-key ";" 'self-insert-command))
+
+
 ;; indent options
-(setq-default indent-tabs-mode nil)
-(setq js-indent-level 2)
-(setq css-indent-offset 2)
-(global-unset-key (kbd "<RET>"))
-(global-set-key (kbd "<RET>") 'newline)
-
-
-;; change tab to a couple of spaces
-;;(global-unset-key (kbd "<tab>"))
-(fset 'tab-spaces
-      (kbd "<space><space>"))
-;;(global-set-key (kbd "<tab>") 'tab-to-tab-stop)
-;;(setq-default tab-width 2)
-
+(setq-default backward-delete-char-untabify-method nil)
+(setq-default indent-tabs-mode t)
+(setq-default tab-width 4)
+(setq js-indent-level 4)
+(setq css-indent-offset 4)
+(electric-indent-mode 0)
+(electric-indent-just-newline 1)
+(add-hook 'python-mode-hook
+  (lambda ()
+    (setq indent-tabs-mode t)
+    (setq python-indent 4)
+    (setq tab-width 4)))
 
 ;; change cursor to bar
 (setq-default cursor-type 'bar)
 
 
+;; start emacs at fullscreen
+(add-to-list 'default-frame-alist '(fullscreen . maximized))
+
+
+
 ;; emacs options - not to touch:
 (custom-set-variables
- '(inhibit-startup-screen t))
+ '(inhibit-startup-screen t)
+ '(package-selected-packages '(web-mode))
+ '(scroll-preserve-screen-position t))
 
 
 (custom-set-faces
